@@ -33,6 +33,7 @@ class QuotesComponent extends React.Component{
       quotesBank:[]
     }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.tweetButton = this.tweetButton.bind(this)
   }
   getQuotes(){
     fetch(url).then(response => response.json())
@@ -47,9 +48,18 @@ class QuotesComponent extends React.Component{
       })
     
   }
+  
   componentDidMount(){
     this.getQuotes()
     
+  }
+
+  tweetButton(){
+    let aTag = document.getElementById('tweet-quote')
+    let href = `https://twitter.com/intent/tweet?hashtags=quotes&text=${this.state.quote} ${this.state.author}`
+    let att = document.createAttribute("href")
+    att.value = href
+    aTag.setAttributeNode(att);
   }
 
   handleSubmit(){
@@ -58,7 +68,7 @@ class QuotesComponent extends React.Component{
       quote : this.state.quotesBank[randomIndex].quote,
       author: this.state.quotesBank[randomIndex].author
     })
-    console.log('I\'m handling submit')
+    
   }
   render(){
     return(
@@ -68,7 +78,7 @@ class QuotesComponent extends React.Component{
             {/* <p>{this.state.quote}</p> */}
             <span id="author">{this.state.author}</span>
             <div class="buttons">
-                <button><a href="#" id="tweet-quote">Tweet</a></button>
+                <button><a  id="tweet-quote" onClick={this.tweetButton} target="_blank">Tweet</a></button>
                 <button id='new-quote' onClick={this.handleSubmit}>New Quote</button>
             </div>
             
